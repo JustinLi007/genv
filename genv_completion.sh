@@ -1,0 +1,60 @@
+#!/bin/bash
+
+set_comp_reply() {
+  COMPREPLY=($(compgen -W "$1" -- "$cur"))
+}
+
+genv_action_flag_complete() {
+  case "${COMP_WORDS[$1]}" in
+  tmux)
+    local flags="-h --help -d --directory"
+    set_comp_reply "$flags"
+    ;;
+  projects)
+    local flags="-h --help -d --directory -e --edit --prefix --suffix --contains"
+    set_comp_reply "$flags"
+    ;;
+  esac
+}
+
+genv_complete() {
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  local prev="${COMP_WORDS[COMP_CWORD - 1]}"
+
+  local actions="tmux projects"
+  local methods="--new --get --delete"
+
+  # arg one
+  # complete with either method or action
+  if [[ $COMP_CWORD == 1 ]]; then
+    if [[ "$cur" =~ ^- ]]; then
+      set_comp_reply "$methods"
+    else
+      set_comp_reply "$actions"
+    fi
+    return 0
+  fi
+
+  # second arg
+  if [[ $COMP_CWORD == 2 ]]; then
+    # if a method was specified, complete with an action
+    # otherwise complete with flags
+    if [[ "$prev" =~ ^- ]]; then
+      set_comp_reply "$actions"
+    else
+      genv_action_flag_complete 1
+    fi
+    return 0
+  fi
+
+  # third arg and beyond
+  # if arg one is a method, complete flags based on arg two
+  # otherwise arg one is the action to complete flags on
+  idx=1
+  if [[ "${COMP_WORDS[1]}" =~ ^- ]]; then
+    idx=2
+  fi
+  genv_action_flag_complete $idx
+}
+
+complete -F genv_complete genv
