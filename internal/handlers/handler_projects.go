@@ -54,7 +54,9 @@ func (hp *handlerProjects) NewProject(ar *action.ActionRequest) {
 	}
 
 	err := hp.serviceProjects.InsertProject(req...)
-	hp.locator.GetLogger().Error(err.Error())
+	if err != nil {
+		hp.locator.GetLogger().Error(err.Error())
+	}
 }
 
 func (hp *handlerProjects) GetProject(ar *action.ActionRequest) {

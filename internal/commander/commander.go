@@ -64,7 +64,7 @@ func (c *commander) RegisterActions() *action.Mux {
 	mux.Register("get", "tmux/help", c.handlerTmux.Help)
 	mux.Register("get", "tmux/directory", c.handlerTmux.CreateSession)
 
-	mux.Register("new", "projects", c.handlerProjects.NewProject)
+	mux.Register("new", "projects/directory", c.handlerProjects.NewProject)
 	mux.Register("get", "projects", c.handlerProjects.GetProjects)
 	mux.Register("get", "projects/directory", c.handlerProjects.GetProject)
 	mux.Register("get", "projects/help", c.handlerProjects.Help)
