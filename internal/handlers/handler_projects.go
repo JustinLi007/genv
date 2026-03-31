@@ -138,6 +138,7 @@ func (hp *handlerProjects) DeleteProject(ar *action.ActionRequest) {
 		}
 	}
 
-	err := hp.serviceProjects.DeleteProject(req...)
-	hp.locator.GetLogger().Error(err.Error())
+	if err := hp.serviceProjects.DeleteProject(req...); err != nil {
+		hp.locator.GetLogger().Error(err.Error())
+	}
 }
