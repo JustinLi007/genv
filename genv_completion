@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set_comp_reply() {
   COMPREPLY=($(compgen -W "$1" -- "$cur"))
@@ -19,7 +19,7 @@ genv_action_flag_complete() {
 
 genv_complete() {
   local cur="${COMP_WORDS[COMP_CWORD]}"
-  local prev="${COMP_WORDS[COMP_CWORD - 1]}"
+  local prev="${COMP_WORDS[COMP_CWORD-1]}"
 
   local actions="tmux projects"
   local methods="--new --get --delete"

@@ -83,7 +83,11 @@ func newInterpreters() *interpreters {
 	ip := &interpreters{
 		allowed: make(map[string]string),
 	}
-	ip.set("#!/bin/bash", "/bin/bash")
+	ip.set("#!/usr/bin/env bash", "bash")
+	ip.set("#!/bin/bash", "bash")
+	ip.set("#!/usr/bin/env zsh", "zsh")
+	ip.set("#!/bin/zsh", "zsh")
+	ip.set("#!/bin/sh", "sh")
 	return ip
 }
 
